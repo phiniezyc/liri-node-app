@@ -1,4 +1,5 @@
 //============NPM Packages==============================
+
 var request = require("request");
 var nodeSpotifyApi = require("node-spotify-api");
 var Twitter = require("twitter");
@@ -6,7 +7,8 @@ var Twitter = require("twitter");
 var keys = require("./keys.js");
 
 
-var client = new Twitter(keys.twitterKeys);
+var client = new Twitter(keys.twitter);
+console.log(keys.twitter);
 
 //==========================================================
 
@@ -14,19 +16,20 @@ var client = new Twitter(keys.twitterKeys);
 var userSelectsAPI = process.argv[2];
 
 
-
 //==========Global Functions==========================
 
 function getTweets() {
-    var params = { screen_name: 'UGA_FB_Thoughts', count: 2 };
+    var params = {screen_name: 'UGA_FB_Thoughts', count: 20};
 
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
-        if (!error) {
-            console.log("HERE ARE YOUR TWEETS:");
-            console.log(tweets);
-        } else {
-           console.log("Sorry, there was an error");
-        }
+        // if (!error) {
+        //     console.log("HERE ARE YOUR TWEETS:");
+        //     console.log(tweets);
+        // } else {
+        //    console.log("Sorry, there was an error");
+        // }
+        console.log(tweets);
+        
      });
 }
 
