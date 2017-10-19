@@ -46,7 +46,6 @@ function getTweets() {
 function getSpotifySongInfo() {
     //4th node argument is reserved for the song user wants to select
     var query = process.argv[3];
-
     if (query !== "") {
         //coule make this less repeating code by passing the song as a parameter?
         spotifyClient.search({type: 'track', query: query, limit: 1}, function (err, data) {
@@ -77,7 +76,29 @@ function getSpotifySongInfo() {
     }
 }
 
+function getMovieInfo() {
+    var userMovieSearch = process.argv[3];
+    if (userMovieSearch !== "") {
+        // Then run a request to the OMDB API with the movie specified
+        var queryUrl = "http://www.omdbapi.com/?t=" + userMovieSearch + "&y=&plot=short&apikey=40e9cece";
 
+        // This line is just to help us debug against the actual URL.
+        console.log(queryUrl);
+        request(queryUrl, function(error, response, body) {
+            
+              // If the request is successful
+              if (!error && response.statusCode === 200) {
+            
+                // Parse the body of the site and recover just the imdbRating
+                // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
+                console.log("Release Year: " + JSON.parse(body).Year);
+              }
+            });
+    } else {
+        //input default search here
+        console.log("you searched for nothing!");
+    }
+}
 
 
 
@@ -89,7 +110,8 @@ if (userSelectsAPI === "my-tweets") {
     getSpotifySongInfo();
 
 } else if (userSelectsAPI === "movie-this") {
-    console.log("movie test worked");
+    //console.log("movie test worked");
+    getMovieInfo();
 
 } else if (userSelectsAPI === "do-what-it-says") {
     console.log("do what it says worked");
