@@ -1,4 +1,4 @@
-//============NPM Packages==============================
+//========NPM & Module Packages===========================
 
 var request = require("request");
 var Spotify = require("node-spotify-api");
@@ -14,7 +14,7 @@ var spotifyClient = new Spotify({
     secret: keys.spotifyKeys.client_Secret,
 });
 
-//==========================================================
+//==========Global Variables==============================
 
 // takes users command which should tell app which API to use
 var userSelectsAPI = process.argv[2];
@@ -48,12 +48,13 @@ function getSpotifySongInfo() {
     var query = process.argv[3];
 
     if (query !== "") {
+        //coule make this less repeating code by passing the song as a parameter?
         spotifyClient.search({type: 'track', query: query, limit: 1}, function (err, data) {
             if (!err) {
                 console.log("=============Artist==Track==Album==PreviewURL=============================");
-                console.log("Artist Name: " + data.tracks.items[0].artists[0].name);
-                console.log("Track Name: " + data.tracks.items[0].name);
-                console.log("Album Name: " + data.tracks.items[0].name);
+                console.log("Artist: " + data.tracks.items[0].artists[0].name);
+                console.log("Track: " + data.tracks.items[0].name);
+                console.log("Album: " + data.tracks.items[0].name);
                 console.log("Preview URL: " + data.tracks.items[0].preview_url);
             } else {
                 console.log(err);
@@ -65,15 +66,14 @@ function getSpotifySongInfo() {
         spotifyClient.search({type: 'track', query: query, limit: 1}, function (err, data) {
             if (!err) {
                 console.log("=============Artist==Track==Album==PreviewURL=============================");
-                console.log("Artist Name: " + data.tracks.items[0].artists[0].name);
-                console.log("Track Name: " + data.tracks.items[0].name);
-                console.log("Album Name: " + data.tracks.items[0].name);
+                console.log("Artist: " + data.tracks.items[0].artists[0].name);
+                console.log("Track: " + data.tracks.items[0].name);
+                console.log("Album: " + data.tracks.items[0].name);
                 console.log("Preview URL: " + data.tracks.items[0].preview_url);
             } else {
                 console.log(err);
             }
         });
-
     }
 }
 
