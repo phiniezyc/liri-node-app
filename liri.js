@@ -7,8 +7,8 @@ var Twitter = require("twitter");
 var keys = require("./keys.js");
 
 
-var client = new Twitter(keys.twitter);
-console.log(keys.twitter);
+var client = new Twitter(keys.twitterKeys);
+
 
 //==========================================================
 
@@ -22,14 +22,20 @@ function getTweets() {
     var params = {screen_name: 'UGA_FB_Thoughts', count: 20};
 
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
-        // if (!error) {
-        //     console.log("HERE ARE YOUR TWEETS:");
-        //     console.log(tweets);
-        // } else {
-        //    console.log("Sorry, there was an error");
-        // }
-        console.log(tweets);
-        
+        if (!error) {
+            console.log("HERE ARE YOUR TWEETS:");
+            //console.log(tweets);
+            for (var i = 0; i < tweets.length; i++) {
+                //numbers each tweet. Adds 1 so numbering starts at 1 instead of 0--more human.
+                console.log("Here is tweet " + [i + 1] + ":");
+                console.log(' "' + tweets[i].text + '" ');
+                console.log("This tweet was sent at:");
+                console.log(tweets[i].created_at);
+                console.log("==============================");
+            }
+        } else {
+           console.log(error);
+        }
      });
 }
 

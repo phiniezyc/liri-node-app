@@ -8,6 +8,6 @@ var twitterKeys = {
   };
 
   module.exports = {
-    
-    twitter: twitterKeys,
+    twitterKeys: twitterKeys,
   };
+
