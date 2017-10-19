@@ -39,13 +39,23 @@ function getTweets() {
      });
 }
 
+function getSpotifySongInfo() {
+    //4th node argument is reserved for the song user wants to select
+    var userChosenSong = process.argv[3];
+    console.log("spotify api test prompt worked");
+    console.log(userChosenSong);
+}
+
+
+
+
 
 //====conditional statements to select which API to use=====
 if (userSelectsAPI === "my-tweets") {
     getTweets();
 
 } else if (userSelectsAPI === "spotify-this-song") {
-    console.log("spotify api test worked");
+    getSpotifySongInfo();
 
 } else if (userSelectsAPI === "movie-this") {
     console.log("movie test worked");
