@@ -1,14 +1,18 @@
 //============NPM Packages==============================
 
 var request = require("request");
-var nodeSpotifyApi = require("node-spotify-api");
+var Spotify = require("node-spotify-api");
 var Twitter = require("twitter");
 //imported twitter keys module
 var keys = require("./keys.js");
 
 
-var client = new Twitter(keys.twitterKeys);
+var twitterClient = new Twitter(keys.twitterKeys);
 
+var spotifyClient = new Spotify({
+    id: keys.spotifyKeys.client_ID,
+    secret: keys.spotifyKeys.client_Secret,
+});
 
 //==========================================================
 
@@ -21,7 +25,7 @@ var userSelectsAPI = process.argv[2];
 function getTweets() {
     var params = {screen_name: 'UGA_FB_Thoughts', count: 20};
 
-    client.get('statuses/user_timeline', params, function(error, tweets, response) {
+    twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) {
         if (!error) {
             console.log("HERE ARE YOUR TWEETS:");
             //console.log(tweets);
@@ -41,9 +45,36 @@ function getTweets() {
 
 function getSpotifySongInfo() {
     //4th node argument is reserved for the song user wants to select
-    var userChosenSong = process.argv[3];
-    console.log("spotify api test prompt worked");
-    console.log(userChosenSong);
+    var query = process.argv[3];
+
+    if (query !== "") {
+        spotifyClient.search({type: 'track', query: query, limit: 1}, function (err, data) {
+            if (!err) {
+                console.log("=============Artist==Track==Album==PreviewURL=============================");
+                console.log("Artist Name: " + data.tracks.items[0].artists[0].name);
+                console.log("Track Name: " + data.tracks.items[0].name);
+                console.log("Album Name: " + data.tracks.items[0].name);
+                console.log("Preview URL: " + data.tracks.items[0].preview_url);
+            } else {
+                console.log(err);
+            }
+        });
+    } else {
+        //need to make this specific for Ace of Base
+        query = 'The Sign';
+        spotifyClient.search({type: 'track', query: query, limit: 1}, function (err, data) {
+            if (!err) {
+                console.log("=============Artist==Track==Album==PreviewURL=============================");
+                console.log("Artist Name: " + data.tracks.items[0].artists[0].name);
+                console.log("Track Name: " + data.tracks.items[0].name);
+                console.log("Album Name: " + data.tracks.items[0].name);
+                console.log("Preview URL: " + data.tracks.items[0].preview_url);
+            } else {
+                console.log(err);
+            }
+        });
+
+    }
 }
 
 

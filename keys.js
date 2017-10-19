@@ -6,7 +6,17 @@ var twitterKeys = {
     access_token_secret: '4KQdq1OhpbBnbIgmR5WzTtnayrwiF6tuV0vEXnslMDHMp',
   };
 
+
+var spotifyKeys = {
+  client_ID: '8d0723a9ee3b4d7395df753dc5241360',
+  client_Secret: 'a0fbb47d4cf647c6a184844a63bfd315',
+};
+  
+  
+
   module.exports = {
     twitterKeys: twitterKeys,
+    spotifyKeys: spotifyKeys,
   };
+
 
