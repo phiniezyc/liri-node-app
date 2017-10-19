@@ -46,7 +46,6 @@ function getTweets() {
 function getSpotifySongInfo() {
     //4th node argument is reserved for the song user wants to select
     var query = process.argv[3];
-
     if (query !== "") {
         //coule make this less repeating code by passing the song as a parameter?
         spotifyClient.search({type: 'track', query: query, limit: 1}, function (err, data) {
@@ -77,8 +76,38 @@ function getSpotifySongInfo() {
     }
 }
 
+function getMovieInfo() {
+    var userMovieSearch = process.argv[3];
+    if (userMovieSearch !== "") {
+        // Then run a request to the OMDB API with the movie specified
+        var queryUrl = "http://www.omdbapi.com/?t=" + userMovieSearch + "&y=&plot=short&apikey=40e9cece";
 
-
+        // This line is just to help us debug against the actual URL.
+        console.log(queryUrl);
+        request(queryUrl, function(error, response, body) {
+            
+              // If the request is successful
+              if (!error && response.statusCode === 200) {
+                console.log("Title: " + JSON.parse(body).Title);
+                console.log("Release Year: " + JSON.parse(body).Year);
+                console.log("IMDB Rating: " + JSON.parse(body).Ratings[0].Value);
+                console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
+                console.log("Country: " + JSON.parse(body).Country);
+                console.log("Language: " + JSON.parse(body).Language);
+                console.log("Plot: " + JSON.parse(body).Plot);
+                console.log("Actors: " + JSON.parse(body).Actors);
+                
+                //uncomment JSON.parse(body) below to get other information from the API
+                //console.log(JSON.parse(body));
+              } else {
+                  console.log(error);
+              }
+            });
+    } else {
+        //input default search here
+        console.log("you searched for nothing!");
+    }
+}
 
 
 //====conditional statements to select which API to use=====
@@ -89,7 +118,7 @@ if (userSelectsAPI === "my-tweets") {
     getSpotifySongInfo();
 
 } else if (userSelectsAPI === "movie-this") {
-    console.log("movie test worked");
+    getMovieInfo();
 
 } else if (userSelectsAPI === "do-what-it-says") {
     console.log("do what it says worked");
