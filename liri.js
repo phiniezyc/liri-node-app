@@ -60,7 +60,7 @@ function getSpotifySongInfo() {
             }
         });
     } else {
-        //need to make this specific for Ace of Base
+        //need to make this specific for Ace of Base. For some reason it's not changing the query to reflect default song.
         query = 'The Sign';
         spotifyClient.search({type: 'track', query: query, limit: 1}, function (err, data) {
             if (!err) {
