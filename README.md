@@ -11,8 +11,7 @@ movie-this
 
 do-what-it-says
 
-Getting Started
-
+Getting Started:
 Clone down repo.
 Run command 'npm install' in Terminal or GitBash
 Run command 'node liri.js' or one of the commands below.
@@ -54,5 +53,5 @@ Request NPM Package - https://www.npmjs.com/package/request
 Prerequisites
 
 - Node.js - Download the latest version of Node https://nodejs.org/en/
-Built With
+
 
