@@ -1,10 +1,10 @@
 //========NPM & Module Packages===========================
+//imported twitter keys module
+var keys = require("./keys.js");
 var request = require("request");
 var Spotify = require("node-spotify-api");
 var Twitter = require("twitter");
 var fs = require("fs");
-//imported twitter keys module
-var keys = require("./keys.js");
 
 var twitterClient = new Twitter(keys.twitterKeys);
 
@@ -12,12 +12,6 @@ var spotifyClient = new Spotify({
     id: keys.spotifyKeys.client_ID,
     secret: keys.spotifyKeys.client_Secret,
 });
-
-//==========Global Variables==============================
-
-// takes users command which tells app which API to use
-var userSelectsAPI = process.argv[2];
-
 
 //==========Global Functions==========================
 
@@ -43,10 +37,9 @@ function getTweets() {
 }
 
 function getSpotifySongInfo() {
+    var defaultSpotifySong = 'Ace of Base';
     //4th node argument is reserved for the song user wants to select
-    
-    var query = (process.argv[3] || 'Ace of Base');
-    //if (query !== "") {
+     var query = (process.argv[3] || defaultSpotifySong);
         //could make this less repeating code by passing the song as a parameter?
         spotifyClient.search({ type: 'track', query: query, limit: 1 }, function (err, data) {
             if (!err) {
@@ -62,7 +55,8 @@ function getSpotifySongInfo() {
 }
 
 function getMovieInfo() {
-    var userMovieSearch = (process.argv[3] || 'Mr. Nobody');
+    var defaultMovie = 'Mr. Nobody';
+    var userMovieSearch = (process.argv[3] || defaultMovie);
     //if (userMovieSearch !== "") {
         // Then run a request to the OMDB API with the movie specified
         var queryUrl = "http://www.omdbapi.com/?t=" + userMovieSearch + "&y=&plot=short&apikey=40e9cece";
@@ -101,9 +95,10 @@ function readTxtFileForCommand() {
 
             var textFileArg1 = fileTextSplitIntoArr[0];
             var textFileArg2 = fileTextSplitIntoArr[1];
-            var query = textFileArg2;
+            query = textFileArg2;
             // converts the text file into format for query.
             userSelectsAPI = textFileArg1;
+        
             getSpotifySongInfo();
 
         } else {
@@ -113,6 +108,9 @@ function readTxtFileForCommand() {
 }
 
 function startApp() {
+    // takes users command which tells app which API to use
+    var userSelectsAPI = process.argv[2];
+
     //====conditional statements to select which API to use=====
     if (userSelectsAPI === "my-tweets") {
         getTweets();
