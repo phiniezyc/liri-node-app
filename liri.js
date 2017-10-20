@@ -17,8 +17,7 @@ var spotifyClient = new Spotify({
 
 // takes users command which tells app which API to use
 var userSelectsAPI = process.argv[2];
-//Query used for spotify search.  Made global so can override in w/ readTxtFileForCommand()
-var query = process.argv[3];
+
 
 //==========Global Functions==========================
 
@@ -46,7 +45,7 @@ function getTweets() {
 function getSpotifySongInfo() {
     //4th node argument is reserved for the song user wants to select
     
-    var query = (process.argv[3] || 'The Sign-Ace of Base');
+    var query = (process.argv[3] || 'Ace of Base');
     //if (query !== "") {
         //could make this less repeating code by passing the song as a parameter?
         spotifyClient.search({ type: 'track', query: query, limit: 1 }, function (err, data) {
@@ -59,8 +58,7 @@ function getSpotifySongInfo() {
             } else {
                 console.log(err);
             }
-        });
-    
+        }); 
 }
 
 function getMovieInfo() {
@@ -99,14 +97,13 @@ function readTxtFileForCommand() {
             console.log(data);
             // takes the text file and splits the info from comma to comma into different positions in array
             var fileTextSplitIntoArr = data.split(",");
-            //console.log(fileTextSplitIntoArr);
+            console.log(fileTextSplitIntoArr);
 
             var textFileArg1 = fileTextSplitIntoArr[0];
             var textFileArg2 = fileTextSplitIntoArr[1];
 
             // converts the text file into format for query.
             userSelectsAPI = textFileArg1;
-            query = textFileArg2;
             getSpotifySongInfo(query);
 
         } else {
@@ -127,7 +124,6 @@ function startApp() {
         getMovieInfo();
 
     } else if (userSelectsAPI === "do-what-it-says") {
-        console.log("do what it says worked");
         readTxtFileForCommand();
 
     } else {
