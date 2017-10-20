@@ -101,10 +101,10 @@ function readTxtFileForCommand() {
 
             var textFileArg1 = fileTextSplitIntoArr[0];
             var textFileArg2 = fileTextSplitIntoArr[1];
-
+            var query = textFileArg2;
             // converts the text file into format for query.
             userSelectsAPI = textFileArg1;
-            getSpotifySongInfo(query);
+            getSpotifySongInfo();
 
         } else {
             console.log(error);
