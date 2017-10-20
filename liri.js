@@ -3,6 +3,7 @@
 var request = require("request");
 var Spotify = require("node-spotify-api");
 var Twitter = require("twitter");
+var fs = require("fs");
 //imported twitter keys module
 var keys = require("./keys.js");
 
@@ -109,6 +110,27 @@ function getMovieInfo() {
     }
 }
 
+// reads txt file to get command to run 
+function readTxtFileForCommand() {
+    fs.readFile("random.txt", "utf8", function(error, data) {
+        if (!error) {
+            console.log(data);
+            // takes the text file and splits the info from comma to comma into different positions in array
+            var fileTextSplitIntoArr = data.split(",");
+            console.log(fileTextSplitIntoArr);
+            
+            var textFileArg1 = fileTextSplitIntoArr[0];
+            console.log(textFileArg1);
+            
+            var textFileArg2 = fileTextSplitIntoArr[1];
+            console.log(textFileArg2);
+        } else {
+            console.log(error);
+        }
+    });
+
+}
+
 
 //====conditional statements to select which API to use=====
 if (userSelectsAPI === "my-tweets") {
@@ -122,6 +144,7 @@ if (userSelectsAPI === "my-tweets") {
 
 } else if (userSelectsAPI === "do-what-it-says") {
     console.log("do what it says worked");
+    readTxtFileForCommand();
 
 } else {
     console.log("You've entered an incorrect command. Please enter a correct command to proceed.");
