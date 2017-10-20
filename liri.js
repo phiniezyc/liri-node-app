@@ -7,7 +7,6 @@ var fs = require("fs");
 //imported twitter keys module
 var keys = require("./keys.js");
 
-
 var twitterClient = new Twitter(keys.twitterKeys);
 
 var spotifyClient = new Spotify({
@@ -19,6 +18,9 @@ var spotifyClient = new Spotify({
 
 // takes users command which should tell app which API to use
 var userSelectsAPI = process.argv[2];
+
+//Query used for spotify search.  Made global so can override in w/ readTxtFileForCommand()
+var query = process.argv[3];
 
 
 //==========Global Functions==========================
@@ -44,11 +46,12 @@ function getTweets() {
      });
 }
 
+
 function getSpotifySongInfo() {
     //4th node argument is reserved for the song user wants to select
-    var query = process.argv[3];
+    //var query = process.argv[3];
     if (query !== "") {
-        //coule make this less repeating code by passing the song as a parameter?
+        //could make this less repeating code by passing the song as a parameter?
         spotifyClient.search({type: 'track', query: query, limit: 1}, function (err, data) {
             if (!err) {
                 console.log("=============Artist==Track==Album==PreviewURL=============================");
@@ -124,6 +127,12 @@ function readTxtFileForCommand() {
             
             var textFileArg2 = fileTextSplitIntoArr[1];
             console.log(textFileArg2);
+
+            // converts the text file into format for query.
+            userSelectsAPI = textFileArg1;
+            query = textFileArg2;
+            getSpotifySongInfo(query);
+
         } else {
             console.log(error);
         }
@@ -153,4 +162,5 @@ if (userSelectsAPI === "my-tweets") {
 
 
 //=========App=Mechanics=====================================
-startApp();
+startApp(userSelectsAPI);
+
