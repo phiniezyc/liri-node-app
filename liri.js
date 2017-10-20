@@ -128,10 +128,9 @@ function readTxtFileForCommand() {
             console.log(error);
         }
     });
-
 }
 
-
+function startApp() {
 //====conditional statements to select which API to use=====
 if (userSelectsAPI === "my-tweets") {
     getTweets();
@@ -149,4 +148,9 @@ if (userSelectsAPI === "my-tweets") {
 } else {
     console.log("You've entered an incorrect command. Please enter a correct command to proceed.");
 }
+}
 
+
+
+//=========App=Mechanics=====================================
+startApp();
