@@ -46,7 +46,7 @@ function getTweets() {
 function getSpotifySongInfo() {
     //4th node argument is reserved for the song user wants to select
     
-    var query = (process.argv[3] || 'The Sign');
+    var query = (process.argv[3] || 'The Sign-Ace of Base');
     //if (query !== "") {
         //could make this less repeating code by passing the song as a parameter?
         spotifyClient.search({ type: 'track', query: query, limit: 1 }, function (err, data) {
@@ -60,21 +60,7 @@ function getSpotifySongInfo() {
                 console.log(err);
             }
         });
-    // } else {
-    //     //need to make this specific for Ace of Base. For some reason it's not changing the query to reflect default song.
-    //     query = 'The Sign';
-    //     spotifyClient.search({ type: 'track', query: query, limit: 1 }, function (err, data) {
-    //         if (!err) {
-    //             console.log("=============Artist==Track==Album==PreviewURL=============================");
-    //             console.log("Artist: " + data.tracks.items[0].artists[0].name);
-    //             console.log("Track: " + data.tracks.items[0].name);
-    //             console.log("Album: " + data.tracks.items[0].name);
-    //             console.log("Preview URL: " + data.tracks.items[0].preview_url);
-    //         } else {
-    //             console.log(err);
-    //         }
-    //     });
-    // }
+    
 }
 
 function getMovieInfo() {
@@ -104,10 +90,6 @@ function getMovieInfo() {
                 console.log(error);
             }
         });
-    // } else {
-    //     //input default search here
-    //     console.log("you searched for nothing!");
-    //}
 }
 
 // reads txt file to get command to run 
