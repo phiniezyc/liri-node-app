@@ -45,8 +45,9 @@ function getTweets() {
 
 function getSpotifySongInfo() {
     //4th node argument is reserved for the song user wants to select
-    //var query = process.argv[3];
-    if (query !== "") {
+    
+    var query = (process.argv[3] || 'The Sign');
+    //if (query !== "") {
         //could make this less repeating code by passing the song as a parameter?
         spotifyClient.search({ type: 'track', query: query, limit: 1 }, function (err, data) {
             if (!err) {
@@ -59,26 +60,26 @@ function getSpotifySongInfo() {
                 console.log(err);
             }
         });
-    } else {
-        //need to make this specific for Ace of Base. For some reason it's not changing the query to reflect default song.
-        query = 'The Sign';
-        spotifyClient.search({ type: 'track', query: query, limit: 1 }, function (err, data) {
-            if (!err) {
-                console.log("=============Artist==Track==Album==PreviewURL=============================");
-                console.log("Artist: " + data.tracks.items[0].artists[0].name);
-                console.log("Track: " + data.tracks.items[0].name);
-                console.log("Album: " + data.tracks.items[0].name);
-                console.log("Preview URL: " + data.tracks.items[0].preview_url);
-            } else {
-                console.log(err);
-            }
-        });
-    }
+    // } else {
+    //     //need to make this specific for Ace of Base. For some reason it's not changing the query to reflect default song.
+    //     query = 'The Sign';
+    //     spotifyClient.search({ type: 'track', query: query, limit: 1 }, function (err, data) {
+    //         if (!err) {
+    //             console.log("=============Artist==Track==Album==PreviewURL=============================");
+    //             console.log("Artist: " + data.tracks.items[0].artists[0].name);
+    //             console.log("Track: " + data.tracks.items[0].name);
+    //             console.log("Album: " + data.tracks.items[0].name);
+    //             console.log("Preview URL: " + data.tracks.items[0].preview_url);
+    //         } else {
+    //             console.log(err);
+    //         }
+    //     });
+    // }
 }
 
 function getMovieInfo() {
-    var userMovieSearch = process.argv[3];
-    if (userMovieSearch !== "") {
+    var userMovieSearch = (process.argv[3] || 'Mr. Nobody');
+    //if (userMovieSearch !== "") {
         // Then run a request to the OMDB API with the movie specified
         var queryUrl = "http://www.omdbapi.com/?t=" + userMovieSearch + "&y=&plot=short&apikey=40e9cece";
 
@@ -103,10 +104,10 @@ function getMovieInfo() {
                 console.log(error);
             }
         });
-    } else {
-        //input default search here
-        console.log("you searched for nothing!");
-    }
+    // } else {
+    //     //input default search here
+    //     console.log("you searched for nothing!");
+    //}
 }
 
 // reads txt file to get command to run 
@@ -116,7 +117,7 @@ function readTxtFileForCommand() {
             console.log(data);
             // takes the text file and splits the info from comma to comma into different positions in array
             var fileTextSplitIntoArr = data.split(",");
-            console.log(fileTextSplitIntoArr);
+            //console.log(fileTextSplitIntoArr);
 
             var textFileArg1 = fileTextSplitIntoArr[0];
             var textFileArg2 = fileTextSplitIntoArr[1];
@@ -153,5 +154,5 @@ function startApp() {
 }
 
 //=========App=Mechanics=====================================
-startApp(userSelectsAPI);
+startApp();
 
