@@ -1,5 +1,4 @@
 //========NPM & Module Packages===========================
-
 var request = require("request");
 var Spotify = require("node-spotify-api");
 var Twitter = require("twitter");
@@ -16,19 +15,17 @@ var spotifyClient = new Spotify({
 
 //==========Global Variables==============================
 
-// takes users command which should tell app which API to use
+// takes users command which tells app which API to use
 var userSelectsAPI = process.argv[2];
-
 //Query used for spotify search.  Made global so can override in w/ readTxtFileForCommand()
 var query = process.argv[3];
-
 
 //==========Global Functions==========================
 
 function getTweets() {
-    var params = {screen_name: 'UGA_FB_Thoughts', count: 20};
+    var params = { screen_name: 'UGA_FB_Thoughts', count: 20 };
 
-    twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) {
+    twitterClient.get('statuses/user_timeline', params, function (error, tweets, response) {
         if (!error) {
             console.log("HERE ARE YOUR TWEETS:");
             //console.log(tweets);
@@ -41,18 +38,17 @@ function getTweets() {
                 console.log("==============================");
             }
         } else {
-           console.log(error);
+            console.log(error);
         }
-     });
+    });
 }
-
 
 function getSpotifySongInfo() {
     //4th node argument is reserved for the song user wants to select
     //var query = process.argv[3];
     if (query !== "") {
         //could make this less repeating code by passing the song as a parameter?
-        spotifyClient.search({type: 'track', query: query, limit: 1}, function (err, data) {
+        spotifyClient.search({ type: 'track', query: query, limit: 1 }, function (err, data) {
             if (!err) {
                 console.log("=============Artist==Track==Album==PreviewURL=============================");
                 console.log("Artist: " + data.tracks.items[0].artists[0].name);
@@ -66,7 +62,7 @@ function getSpotifySongInfo() {
     } else {
         //need to make this specific for Ace of Base. For some reason it's not changing the query to reflect default song.
         query = 'The Sign';
-        spotifyClient.search({type: 'track', query: query, limit: 1}, function (err, data) {
+        spotifyClient.search({ type: 'track', query: query, limit: 1 }, function (err, data) {
             if (!err) {
                 console.log("=============Artist==Track==Album==PreviewURL=============================");
                 console.log("Artist: " + data.tracks.items[0].artists[0].name);
@@ -88,10 +84,10 @@ function getMovieInfo() {
 
         // This line is just to help us debug against the actual URL.
         console.log(queryUrl);
-        request(queryUrl, function(error, response, body) {
-            
-              // If the request is successful
-              if (!error && response.statusCode === 200) {
+        request(queryUrl, function (error, response, body) {
+
+            // If the request is successful
+            if (!error && response.statusCode === 200) {
                 console.log("Title: " + JSON.parse(body).Title);
                 console.log("Release Year: " + JSON.parse(body).Year);
                 console.log("IMDB Rating: " + JSON.parse(body).Ratings[0].Value);
@@ -100,13 +96,13 @@ function getMovieInfo() {
                 console.log("Language: " + JSON.parse(body).Language);
                 console.log("Plot: " + JSON.parse(body).Plot);
                 console.log("Actors: " + JSON.parse(body).Actors);
-                
+
                 //uncomment JSON.parse(body) below to get other information from the API
                 //console.log(JSON.parse(body));
-              } else {
-                  console.log(error);
-              }
-            });
+            } else {
+                console.log(error);
+            }
+        });
     } else {
         //input default search here
         console.log("you searched for nothing!");
@@ -115,18 +111,15 @@ function getMovieInfo() {
 
 // reads txt file to get command to run 
 function readTxtFileForCommand() {
-    fs.readFile("random.txt", "utf8", function(error, data) {
+    fs.readFile("random.txt", "utf8", function (error, data) {
         if (!error) {
             console.log(data);
             // takes the text file and splits the info from comma to comma into different positions in array
             var fileTextSplitIntoArr = data.split(",");
             console.log(fileTextSplitIntoArr);
-            
+
             var textFileArg1 = fileTextSplitIntoArr[0];
-            console.log(textFileArg1);
-            
             var textFileArg2 = fileTextSplitIntoArr[1];
-            console.log(textFileArg2);
 
             // converts the text file into format for query.
             userSelectsAPI = textFileArg1;
@@ -140,26 +133,24 @@ function readTxtFileForCommand() {
 }
 
 function startApp() {
-//====conditional statements to select which API to use=====
-if (userSelectsAPI === "my-tweets") {
-    getTweets();
+    //====conditional statements to select which API to use=====
+    if (userSelectsAPI === "my-tweets") {
+        getTweets();
 
-} else if (userSelectsAPI === "spotify-this-song") {
-    getSpotifySongInfo();
+    } else if (userSelectsAPI === "spotify-this-song") {
+        getSpotifySongInfo();
 
-} else if (userSelectsAPI === "movie-this") {
-    getMovieInfo();
+    } else if (userSelectsAPI === "movie-this") {
+        getMovieInfo();
 
-} else if (userSelectsAPI === "do-what-it-says") {
-    console.log("do what it says worked");
-    readTxtFileForCommand();
+    } else if (userSelectsAPI === "do-what-it-says") {
+        console.log("do what it says worked");
+        readTxtFileForCommand();
 
-} else {
-    console.log("You've entered an incorrect command. Please enter a correct command to proceed.");
+    } else {
+        console.log("You've entered an incorrect command. Please enter a correct command to proceed.");
+    }
 }
-}
-
-
 
 //=========App=Mechanics=====================================
 startApp(userSelectsAPI);
