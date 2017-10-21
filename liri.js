@@ -17,7 +17,6 @@ var spotifyClient = new Spotify({
 
 function getTweets() {
     var params = { screen_name: 'UGA_FB_Thoughts', count: 20 };
-
     twitterClient.get('statuses/user_timeline', params, function (error, tweets, response) {
         if (!error) {
             console.log("HERE ARE YOUR TWEETS:");
@@ -38,9 +37,9 @@ function getTweets() {
 
 function getSpotifySongInfo() {
     var defaultSpotifySong = 'Ace of Base';
-    //4th node argument is reserved for the song user wants to select
+    //4th node argument reserved for the song user wants to select
     var query = (process.argv[3] || defaultSpotifySong);
-    //could make this less repeating code by passing the song as a parameter?
+
     spotifyClient.search({ type: 'track', query: query, limit: 1 }, function (err, data) {
         if (!err) {
             console.log("=============Artist==Track==Album==PreviewURL=============================");
@@ -56,9 +55,9 @@ function getSpotifySongInfo() {
 
 function getMovieInfo() {
     var defaultMovie = 'Mr. Nobody';
+    //if there is a user provided argument that will be the movie searched for, otherwise uses default movie
     var userMovieSearch = (process.argv[3] || defaultMovie);
-    //if (userMovieSearch !== "") {
-    // Then run a request to the OMDB API with the movie specified
+    // Request to the OMDB API with userMovieSearch specified
     var queryUrl = "http://www.omdbapi.com/?t=" + userMovieSearch + "&y=&plot=short&apikey=40e9cece";
 
     // This line is just to help us debug against the actual URL.
@@ -75,7 +74,6 @@ function getMovieInfo() {
             console.log("Language: " + JSON.parse(body).Language);
             console.log("Plot: " + JSON.parse(body).Plot);
             console.log("Actors: " + JSON.parse(body).Actors);
-
             //uncomment JSON.parse(body) below to get other information from the API
             //console.log(JSON.parse(body));
         } else {
@@ -93,13 +91,13 @@ function readTxtFileForCommand() {
             var fileTextSplitIntoArr = data.split(",");
             console.log(fileTextSplitIntoArr);
 
-             // converts the text file into format for query.
+            // converts the text file into format for query.
             var textFileArg1 = fileTextSplitIntoArr[0];
             var textFileArg2 = fileTextSplitIntoArr[1];
-            
+
             // Grabs the 2nd index (fileTextSplitIntoArr[1]) position to use for query search 
             var query = textFileArg2;
-            //changed code to fix default issue which means I had to repeat this code here: BAD!
+            //changed code to fix default issue which means I had to repeat this code here: BAD, I know!
             spotifyClient.search({ type: 'track', query: query, limit: 1 }, function (err, data) {
                 if (!err) {
                     console.log("=============Artist==Track==Album==PreviewURL=============================");
@@ -107,12 +105,10 @@ function readTxtFileForCommand() {
                     console.log("Track: " + data.tracks.items[0].name);
                     console.log("Album: " + data.tracks.items[0].name);
                     console.log("Preview URL: " + data.tracks.items[0].preview_url);
-                    
                 } else {
                     console.log(err);
                 }
             });
-
         } else {
             console.log(error);
         }
@@ -141,6 +137,6 @@ function startApp() {
     }
 }
 
-//=========App=Mechanics=====================================
+//=========App=Logistics=====================================
 startApp();
 
